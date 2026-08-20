@@ -15,8 +15,6 @@ Kontroller:
 
 Not: FAIL alınırsa https://status.render.com kontrol edilmeli; platform
 incident'ları (ör. 2026-08-20 free-tier spin-up kesintisi) 502/503/429 üretir.
-CI'daki test job'ı da geçici ağ hatalarından etkilenebilir; kararsızlıkta
-önce yeniden tetikle, sonra kod tarafını suçla.
 
 Çıkış kodu: hepsi PASS ise 0, aksi halde 1.
 """
@@ -36,7 +34,7 @@ TIMEOUT = 60
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
     """3xx yanıtı takip etme — status + Location header'ını olduğu gibi döndür."""
 
-    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: ANN001, ANN201
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
         return None
 
 
