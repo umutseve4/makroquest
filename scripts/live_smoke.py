@@ -11,7 +11,7 @@ Kontroller:
   5. GET  /case/session/{sid}/score  -> 200, total_earned alanı var
   6. GET  /retrieve?q=...&k=3        -> 200, >=1 sonuç
   7. POST /ask                       -> 200, >=1 citation
-  8. GET  /                          -> 3xx redirect, Location: /docs
+  8. GET  /                          -> 3xx redirect, Location tam olarak /docs
 
 Not: FAIL alınırsa https://status.render.com kontrol edilmeli; platform
 incident'ları (ör. 2026-08-20 free-tier spin-up kesintisi) 502/503/429 üretir.
@@ -129,7 +129,7 @@ def main() -> int:
     results.append(("ask", status == 200 and cites >= 1, f"{status} citations={cites}"))
 
     status, location = get_no_redirect("/")
-    ok = status in (301, 302, 307, 308) and location.rstrip("/").endswith("/docs")
+    ok = status in (301, 302, 303, 307, 308) and location.rstrip("/") == "/docs"
     results.append(("root-redirect", ok, f"{status} location={location!r}"))
 
     print("===== OTOMATIK KONTROL =====")
