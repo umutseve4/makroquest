@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from makroquest.agent.graph import run_agent
+from makroquest.paths import data_dir
 from makroquest.rag.chunking import load_corpus
 from makroquest.rag.store import MemoryStore, VectorStore
 
@@ -121,9 +122,9 @@ def format_report(report: Report, k: int = DEFAULT_K) -> str:
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[3]
-    corpus_dir = root / "data" / "corpus"
-    golden_path = root / "data" / "golden" / "golden_set.jsonl"
+    root = data_dir()
+    corpus_dir = root / "corpus"
+    golden_path = root / "golden" / "golden_set.jsonl"
 
     chunks = load_corpus(corpus_dir)
     store = MemoryStore()

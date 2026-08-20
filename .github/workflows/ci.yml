@@ -37,3 +37,32 @@ jobs:
         run: pytest
       - name: Eval
         run: python -m makroquest.eval
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t makroquest:ci .
+      - name: Smoke test (non-editable kurulum + MAKROQUEST_DATA_DIR)
+        run: |
+          docker run -d --rm -p 7860:7860 --name mq makroquest:ci
+          for i in $(seq 1 30); do
+            curl -fs http://localhost:7860/health > /dev/null && break
+            sleep 1
+          done
+          echo "== /health =="
+          curl -fs http://localhost:7860/health
+          echo
+          echo "== /case listesi =="
+          curl -fs http://localhost:7860/case | grep -q kasim-2021
+          echo "case listesi OK"
+          echo "== vaka akisi =="
+          SID=$(curl -fs -X POST http://localhost:7860/case/kasim-2021/start \
+            | python3 -c "import sys,json;print(json.load(sys.stdin)['session_id'])")
+          curl -fs "http://localhost:7860/case/session/$SID/score" > /dev/null
+          echo "vaka akisi OK"
+          echo "== /retrieve =="
+          curl -fs "http://localhost:7860/retrieve?q=doviz%20kuru&k=3" \
+            | python3 -c "import sys,json;d=json.load(sys.stdin);assert d['results'],'bos sonuc';print('retrieve OK,',len(d['results']),'sonuc')"
+          docker stop mq

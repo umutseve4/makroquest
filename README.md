@@ -1,8 +1,28 @@
 # MakroQuest 🕵️📈
 
-**Türkiye ekonomisi dedektiflik oyunu.** "TL neden değer kaybetti?" gibi gerçek ekonomik vakaları, gerçek verilerle (TCMB EVDS, TÜİK) ve **kaynak gösteren** bir RAG ipucu ajanıyla çözersin.
+**Türkiye ekonomisi dedektiflik oyunu.** "TL neden değer kaybetti?" gibi gerçek ekonomik vakaları, gerçek verilerle (Dünya Bankası açık verileri) ve **kaynak gösteren** bir RAG ipucu ajanıyla çözersin.
 
 > enflasyonum "fiyatlar **kaç** oldu?" sorusuna cevap verir; MakroQuest "**neden** oldu?" sorusunu oyunlaştırır.
+
+## Canlı demo
+
+🔗 **Demo:** _(yakında — Render üzerinde)_
+
+```bash
+# Yerel çalıştırma (Docker):
+docker build -t makroquest .
+docker run -p 7860:7860 makroquest
+# http://localhost:7860/docs  → Swagger UI
+```
+
+Hızlı tur:
+
+```bash
+curl localhost:7860/health
+curl localhost:7860/case                          # vaka listesi
+curl -X POST localhost:7860/case/kasim-2021/start # oturum aç
+curl "localhost:7860/retrieve?q=doviz+kuru&k=3"   # kaynaklı retrieval
+```
 
 ## Nasıl oynanır (MVP hedefi)
 
@@ -14,17 +34,17 @@
 ## Mimari (hedef)
 
 ```
-EVDS 3 + TÜİK ──▶ ingestion (GitHub Actions, günlük) ──▶ Neon Postgres + pgvector
+Dünya Bankası API ──▶ ingestion (GitHub Actions, günlük) ──▶ Neon Postgres + pgvector
                                                               │
                                         LangGraph ipucu ajanı (RAG, kaynaklı cevap)
                                                               │
-                                        FastAPI backend ──▶ HF Spaces / Render UI
+                                        FastAPI backend ──▶ Render / HF Spaces
 ```
 
-- **Veri:** TCMB EVDS 3, TÜİK Veri Portalı
+- **Veri:** Dünya Bankası Indicators API (anahtarsız), TÜİK Veri Portalı (faz 2)
 - **Depolama:** Neon Postgres + pgvector (embedding'ler), oyuncu state için NoSQL (faz 2: DynamoDB)
 - **AI:** LangGraph tabanlı ipucu ajanı; CI'da golden-set **RAG eval** (kaynak doğruluğu dahil)
-- **Çalıştırma:** Docker; geliştirme GitHub Codespaces üzerinde — tamamen bulut, GPU'suz
+- **Çalıştırma:** Docker (`MAKROQUEST_DATA_DIR` ile veri yolu); geliştirme GitHub Codespaces üzerinde — tamamen bulut, GPU'suz
 
 ## Durum
 
@@ -49,4 +69,4 @@ MIT — bkz. [LICENSE](LICENSE).
 
 ## Sorumluluk reddi
 
-MakroQuest bir eğitim/oyun projesidir; yatırım tavsiyesi değildir. Veriler TCMB EVDS ve TÜİK'in açık verilerinden alınır; hak sahipliği ilgili kurumlara aittir.
+MakroQuest bir eğitim/oyun projesidir; yatırım tavsiyesi değildir. Veriler Dünya Bankası ve TÜİK'in açık verilerinden alınır; hak sahipliği ilgili kurumlara aittir.
