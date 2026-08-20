@@ -1,0 +1,73 @@
+id: kasim-2021
+title: "Kasım 2021 — TL'ye ne oldu?"
+brief: |
+  Sonbahar 2021. Türk lirası birkaç ay içinde dolar karşısında hızla değer
+  kaybediyor. Dedektif sensin: delilleri incele, gerekirse ipucu iste ve
+  soruları cevaplayarak vakayı çöz. İpucu istemek puandan düşer.
+
+evidence:
+  - id: ev-faiz
+    label: "Politika faizi kararları (2021 sonbaharı)"
+    detail: >-
+      TCMB politika faizi, yüksek enflasyona rağmen Eylül-Aralık 2021
+      arasında art arda indirildi.
+  - id: ev-kur
+    label: "USD/TRY seyri (PA.NUS.FCRF)"
+    detail: >-
+      Dünya Bankası resmî yıllık ortalama kur göstergesi; 2021'de TL'nin
+      dolar karşısında hızlandırılmış değer kaybı görülür.
+  - id: ev-enflasyon
+    label: "Yıllık TÜFE enflasyonu (FP.CPI.TOTL.ZG)"
+    detail: >-
+      2021 boyunca yükselen ve 2022'de ivmelenen yıllık tüketici
+      enflasyonu.
+  - id: ev-kkm
+    label: "Aralık 2021 duyurusu"
+    detail: >-
+      Aralık 2021'de kur korumalı mevduat (KKM) aracı duyuruldu; kur
+      kısmen istikrar kazandı.
+
+questions:
+  - id: q1
+    text: "2021 sonbaharında kur şokunu tetikleyen temel politika hamlesi neydi?"
+    choices:
+      - "Politika faizinin yüksek enflasyona rağmen art arda indirilmesi"
+      - "Sermaye kontrollerinin aniden kaldırılması"
+      - "Asgari ücrete yüksek zam yapılması"
+      - "İhracat vergilerinin artırılması"
+    correct_index: 0
+    points: 30
+    hint_penalty: 10
+    hint_query: "2021 sonbaharında Türkiye'de politika faizine ne oldu?"
+    explanation: >-
+      Yüksek enflasyona rağmen politika faizi art arda indirildi; bu,
+      reel faizi negatife itti ve dövize yönelimi hızlandırdı.
+  - id: q2
+    text: "Faiz indirimleri hangi mekanizmayla TL'den kaçışı hızlandırdı?"
+    choices:
+      - "Kamu harcamalarını kısarak talebi düşürdü"
+      - "Reel faizi negatife çevirip TL'de tutmanın getirisini yetersiz kıldı"
+      - "Bankaların kredi faizlerini yükseltti"
+      - "İthalatı ucuzlatarak cari fazla yarattı"
+    correct_index: 1
+    points: 30
+    hint_penalty: 10
+    hint_query: "Reel faiz negatife düştüğünde yatırımcı ne yapar?"
+    explanation: >-
+      Reel faiz (nominal faiz eksi beklenen enflasyon) negatife dönünce
+      yatırımcı TL varlıkta kalmanın getirisini yetersiz bulur ve dövize
+      yönelir; dolarizasyon hızlanır.
+  - id: q3
+    text: "Aralık 2021'de kuru kısmen istikrara kavuşturan gelişme neydi?"
+    choices:
+      - "IMF ile stand-by anlaşması imzalanması"
+      - "Politika faizinin sert biçimde artırılması"
+      - "Kur korumalı mevduat (KKM) aracının duyurulması"
+      - "Yeni bir para biriminin tedavüle girmesi"
+    correct_index: 2
+    points: 40
+    hint_penalty: 15
+    hint_query: "Kur korumalı mevduat (KKM) ne zaman duyuruldu?"
+    explanation: >-
+      Aralık 2021'de KKM duyuruldu ve kur kısmen istikrar kazandı; ancak
+      enflasyon 2022 boyunca yükselmeye devam etti.
