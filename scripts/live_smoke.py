@@ -8,7 +8,7 @@ Kontroller:
   2. GET  /case                      -> 200, kasim-2021 listede
   3. POST /case/kasim-2021/start     -> 200, session_id döner
   4. POST /case/session/{sid}/answer -> 200 (q1 cevaplanır)
-  5. GET  /case/session/{sid}/score  -> 200, score alanı var
+  5. GET  /case/session/{sid}/score  -> 200, total_earned alanı var
   6. GET  /retrieve?q=...&k=3        -> 200, >=1 sonuç
   7. POST /ask                       -> 200, >=1 citation
 
@@ -72,7 +72,8 @@ def main() -> int:
     results.append(("health", ok, f"{status} {body}"))
 
     status, body = get("/case")
-    case_ids = [c.get("case_id") for c in body] if isinstance(body, list) else []
+    items = body if isinstance(body, list) else []
+    case_ids = [c.get("case_id") or c.get("id") for c in items if isinstance(c, dict)]
     ok = status == 200 and "kasim-2021" in case_ids
     results.append(("case-list", ok, f"{status} {case_ids}"))
 
@@ -87,8 +88,9 @@ def main() -> int:
     results.append(("case-answer", status == 200, f"{status}"))
 
     status, body = get(f"/case/session/{sid}/score")
-    ok = status == 200 and isinstance(body, dict) and "score" in body
-    results.append(("case-score", ok, f"{status} {body}"))
+    earned = body.get("total_earned") if isinstance(body, dict) else None
+    ok = status == 200 and isinstance(earned, int)
+    results.append(("case-score", ok, f"{status} total_earned={earned}"))
 
     status, body = get("/retrieve?q=enflasyon%20neden%20artti&k=3")
     n = len(body.get("results", [])) if isinstance(body, dict) else 0
