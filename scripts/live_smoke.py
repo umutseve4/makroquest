@@ -11,6 +11,7 @@ Kontroller:
   5. GET  /case/session/{sid}/score  -> 200, total_earned alanı var
   6. GET  /retrieve?q=...&k=3        -> 200, >=1 sonuç
   7. POST /ask                       -> 200, >=1 citation
+  8. GET  /                          -> 3xx redirect, Location: /docs
 
 Çıkış kodu: hepsi PASS ise 0, aksi halde 1.
 """
@@ -25,6 +26,13 @@ import urllib.request
 
 BASE = sys.argv[1].rstrip("/") if len(sys.argv) > 1 else "https://makroquest.onrender.com"
 TIMEOUT = 60
+
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """3xx yanıtı takip etme — status + Location header'ını olduğu gibi döndür."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: ANN001, ANN201
+        return None
 
 
 def _request(method: str, path: str, body: dict | None = None) -> tuple[int, object]:
@@ -52,6 +60,21 @@ def get(path: str) -> tuple[int, object]:
 
 def post(path: str, body: dict) -> tuple[int, object]:
     return _request("POST", path, body)
+
+
+def get_no_redirect(path: str) -> tuple[int, str]:
+    """GET isteği at, redirect'i takip etme; (status, Location) döndür."""
+    opener = urllib.request.build_opener(_NoRedirect)
+    req = urllib.request.Request(
+        BASE + path,
+        headers={"User-Agent": "makroquest-live-smoke"},
+        method="GET",
+    )
+    try:
+        with opener.open(req, timeout=TIMEOUT) as resp:
+            return resp.status, resp.headers.get("Location", "")
+    except urllib.error.HTTPError as exc:  # 3xx buraya düşer (redirect takip edilmedi)
+        return exc.code, exc.headers.get("Location", "")
 
 
 def main() -> int:
@@ -99,6 +122,10 @@ def main() -> int:
     status, body = post("/ask", {"question": "Kasim 2021'de TL neden deger kaybetti?", "k": 3})
     cites = len(body.get("citations", [])) if isinstance(body, dict) else 0
     results.append(("ask", status == 200 and cites >= 1, f"{status} citations={cites}"))
+
+    status, location = get_no_redirect("/")
+    ok = status in (301, 302, 307, 308) and location.rstrip("/").endswith("/docs")
+    results.append(("root-redirect", ok, f"{status} location={location!r}"))
 
     print("===== OTOMATIK KONTROL =====")
     all_ok = True
