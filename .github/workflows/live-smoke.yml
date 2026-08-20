@@ -1,0 +1,21 @@
+name: live-smoke
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/live_smoke.py"
+      - ".github/workflows/live-smoke.yml"
+  schedule:
+    - cron: "17 6 * * 1" # her pazartesi 06:17 UTC — canlı demo hâlâ ayakta mı?
+
+jobs:
+  live-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Canlı deploy smoke testi
+        run: python scripts/live_smoke.py https://makroquest.onrender.com
