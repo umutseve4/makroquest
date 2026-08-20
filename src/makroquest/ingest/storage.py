@@ -6,7 +6,7 @@ Postgres (Neon) adapter will reuse the same schema when DATABASE_URL lands.
 from __future__ import annotations
 
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 SCHEMA = """
@@ -33,7 +33,7 @@ def upsert_observations(
     rows: list[tuple[str, float]],
 ) -> int:
     """Insert-or-replace rows. Running twice yields the same row count."""
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     conn.executemany(
         "INSERT INTO observations (series_code, period, value, ingested_at) "
         "VALUES (?, ?, ?, ?) "
