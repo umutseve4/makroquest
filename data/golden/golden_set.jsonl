@@ -1,0 +1,30 @@
+{"question": "Enflasyon nedir?", "expected_citation": "enflasyon.md#Enflasyon nedir?", "answer_keywords": ["fiyatlar genel düzeyi"]}
+{"question": "Yıllık enflasyon nasıl hesaplanır?", "expected_citation": "enflasyon.md#Enflasyon nedir?", "answer_keywords": ["12 ay", "yüzde değişim"]}
+{"question": "TÜFE'yi hangi kurum her ay açıklar?", "expected_citation": "enflasyon.md#Enflasyon nedir?", "answer_keywords": ["TÜİK"]}
+{"question": "Dünya Bankası'nın yıllık TÜFE enflasyonu göstergesi hangi koddur?", "expected_citation": "enflasyon.md#Enflasyon nedir?", "answer_keywords": ["FP.CPI.TOTL.ZG"]}
+{"question": "Tüketici Fiyat Endeksi (TÜFE) neyi ölçer?", "expected_citation": "enflasyon.md#Enflasyon nedir?", "answer_keywords": ["TÜFE", "endeks"]}
+{"question": "Talep enflasyonu nasıl oluşur?", "expected_citation": "enflasyon.md#Enflasyonun nedenleri", "answer_keywords": ["toplam talep", "üretim kapasitesi"]}
+{"question": "Maliyet enflasyonu nedir ve hangi girdilerle oluşur?", "expected_citation": "enflasyon.md#Enflasyonun nedenleri", "answer_keywords": ["girdi fiyat", "enerji"]}
+{"question": "Döviz kuru artışı maliyet enflasyonunu nasıl besler?", "expected_citation": "enflasyon.md#Enflasyonun nedenleri", "answer_keywords": ["ithal girdi", "geçişkenlik"]}
+{"question": "Geçişkenlik (pass-through) ne demektir?", "expected_citation": "enflasyon.md#Enflasyonun nedenleri", "answer_keywords": ["pass-through"]}
+{"question": "İthalata bağımlı ekonomilerde kur artışının enflasyona etkisi nedir?", "expected_citation": "enflasyon.md#Enflasyonun nedenleri", "answer_keywords": ["maliyet enflasyonu"]}
+{"question": "Merkez bankaları enflasyonu kontrol etmek için hangi aracı kullanır?", "expected_citation": "enflasyon.md#Enflasyon ve faiz ilişkisi", "answer_keywords": ["politika faizi"]}
+{"question": "Faiz artışı talebi ve krediyi nasıl etkiler?", "expected_citation": "enflasyon.md#Enflasyon ve faiz ilişkisi", "answer_keywords": ["krediyi pahalılaştırır", "talebi soğutur"]}
+{"question": "Faiz indirimi enflasyon baskısını neden artırabilir?", "expected_citation": "enflasyon.md#Enflasyon ve faiz ilişkisi", "answer_keywords": ["talep canlanır"]}
+{"question": "Politika faizi ile döviz kuru arasındaki ilişki nedir?", "expected_citation": "enflasyon.md#Enflasyon ve faiz ilişkisi", "answer_keywords": ["yerli para", "kuru destekler"]}
+{"question": "Faiz artışı yerli paraya olan talebi nasıl etkiler?", "expected_citation": "enflasyon.md#Enflasyon ve faiz ilişkisi", "answer_keywords": ["yerli paraya olan talebi artırarak"]}
+{"question": "Döviz kuru nedir?", "expected_citation": "doviz-kuru.md#Döviz kuru nedir?", "answer_keywords": ["başka bir ülke parası cinsinden fiyat"]}
+{"question": "USD/TRY kuru ne anlama gelir?", "expected_citation": "doviz-kuru.md#Döviz kuru nedir?", "answer_keywords": ["kaç Türk lirası"]}
+{"question": "Dünya Bankası'nın resmî yıllık ortalama döviz kuru göstergesi hangisidir?", "expected_citation": "doviz-kuru.md#Döviz kuru nedir?", "answer_keywords": ["PA.NUS.FCRF"]}
+{"question": "Bir para birimi neden değer kaybeder?", "expected_citation": "doviz-kuru.md#Kur neden değer kaybeder?", "answer_keywords": ["enflasyon farkı", "cari açık"]}
+{"question": "Reel faiz nasıl hesaplanır?", "expected_citation": "doviz-kuru.md#Kur neden değer kaybeder?", "answer_keywords": ["nominal faiz eksi beklenen enflasyon"]}
+{"question": "Reel faiz negatife düştüğünde yatırımcı ne yapar?", "expected_citation": "doviz-kuru.md#Kur neden değer kaybeder?", "answer_keywords": ["dövize yönelir"]}
+{"question": "Cari açık ve sermaye çıkışı para birimini nasıl etkiler?", "expected_citation": "doviz-kuru.md#Kur neden değer kaybeder?", "answer_keywords": ["değer kaybedebilir"]}
+{"question": "Rezerv yetersizliği ve güven kaybı kur üzerinde nasıl etki yapar?", "expected_citation": "doviz-kuru.md#Kur neden değer kaybeder?", "answer_keywords": ["güven kaybı"]}
+{"question": "2021 sonbaharında Türkiye'de politika faizine ne oldu?", "expected_citation": "doviz-kuru.md#Kasım 2021 örneği", "answer_keywords": ["art arda indirildi"]}
+{"question": "Kasım 2021'de TL dolar karşısında neden hızla değer kaybetti?", "expected_citation": "doviz-kuru.md#Kasım 2021 örneği", "answer_keywords": ["reel faiz", "negatife"]}
+{"question": "Kur korumalı mevduat (KKM) ne zaman duyuruldu?", "expected_citation": "doviz-kuru.md#Kasım 2021 örneği", "answer_keywords": ["Aralık 2021"]}
+{"question": "KKM duyurusu sonrasında kur ve enflasyon nasıl seyretti?", "expected_citation": "doviz-kuru.md#Kasım 2021 örneği", "answer_keywords": ["kısmen istikrar"]}
+{"question": "Kur şokları büyümeyi hangi kanallardan etkiler?", "expected_citation": "doviz-kuru.md#İşsizlik ve büyüme bağlantısı", "answer_keywords": ["ithal girdi", "belirsizlik"]}
+{"question": "Dünya Bankası'nın işsizlik göstergesi hangi koddur?", "expected_citation": "doviz-kuru.md#İşsizlik ve büyüme bağlantısı", "answer_keywords": ["SL.UEM.TOTL.ZS"]}
+{"question": "Belirsizlik yatırım kararlarını nasıl etkiler?", "expected_citation": "doviz-kuru.md#İşsizlik ve büyüme bağlantısı", "answer_keywords": ["yatırımı erteletir"]}
