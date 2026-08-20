@@ -35,8 +35,15 @@ def _request(method: str, path: str, body: dict | None = None) -> tuple[int, obj
         headers={"Content-Type": "application/json", "User-Agent": "makroquest-live-smoke"},
         method=method,
     )
-    with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
-        return resp.status, json.loads(resp.read().decode())
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+            return resp.status, json.loads(resp.read().decode())
+    except urllib.error.HTTPError as exc:  # 4xx/5xx: status + gövdeyi raporla, çökme
+        raw = exc.read().decode(errors="replace")
+        try:
+            return exc.code, json.loads(raw)
+        except ValueError:
+            return exc.code, raw
 
 
 def get(path: str) -> tuple[int, object]:
@@ -50,15 +57,16 @@ def post(path: str, body: dict) -> tuple[int, object]:
 def main() -> int:
     results: list[tuple[str, bool, str]] = []
 
-    # Render free tier uykudan uyanabilir: /health'i 3 denemeye kadar bekle.
+    # Render free tier uykudan uyanabilir: /health'i 5 denemeye kadar bekle.
     status, body = 0, {}
-    for attempt in range(3):
+    for attempt in range(5):
         try:
             status, body = get("/health")
-            break
         except urllib.error.URLError:
-            if attempt == 2:
-                raise
+            status, body = 0, {}
+        if status == 200:
+            break
+        if attempt < 4:
             time.sleep(20)
     ok = status == 200 and isinstance(body, dict) and body.get("status") == "ok"
     results.append(("health", ok, f"{status} {body}"))
