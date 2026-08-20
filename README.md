@@ -8,7 +8,7 @@
 
 🔗 **Demo:** https://makroquest.onrender.com — [Swagger UI](https://makroquest.onrender.com/docs) · [/health](https://makroquest.onrender.com/health)
 
-> Not: Render free tier 15 dk hareketsizlikte uyur; ilk istek ~30-60 sn sürebilir.
+> Not: Kök URL (`/`) otomatik olarak `/docs`'a yönlenir. Render free tier 15 dk hareketsizlikte uyur; ilk istek ~30-60 sn sürebilir.
 > Canlı demo her hafta [live-smoke](.github/workflows/live-smoke.yml) workflow'u ile otomatik doğrulanır.
 
 ```bash
