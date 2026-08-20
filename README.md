@@ -6,7 +6,10 @@
 
 ## Canlı demo
 
-🔗 **Demo:** _(yakında — Render üzerinde)_
+🔗 **Demo:** https://makroquest.onrender.com — [Swagger UI](https://makroquest.onrender.com/docs) · [/health](https://makroquest.onrender.com/health)
+
+> Not: Render free tier 15 dk hareketsizlikte uyur; ilk istek ~30-60 sn sürebilir.
+> Canlı demo her hafta [live-smoke](.github/workflows/live-smoke.yml) workflow'u ile otomatik doğrulanır.
 
 ```bash
 # Yerel çalıştırma (Docker):
@@ -48,11 +51,11 @@ Dünya Bankası API ──▶ ingestion (GitHub Actions, günlük) ──▶ Neo
 
 ## Durum
 
-🚧 **M1 geliştirme aşamasında.** Yol haritası için [ROADMAP.md](ROADMAP.md).
+✅ **M1 tamamlandı — canlı demo yayında.** Yol haritası için [ROADMAP.md](ROADMAP.md).
 
 | Aşama | Durum |
 |---|---|
-| M1 — Dikey dilim: 1 vaka + RAG ajanı + eval | 🔨 devam ediyor |
+| M1 — Dikey dilim: 1 vaka + RAG ajanı + eval + canlı demo | ✅ tamamlandı |
 | M2 — 5 vaka + puan/rozet/leaderboard | ⏳ planlandı |
 | M3 — AWS taşıma (S3/Step Functions/DynamoDB) | ⏳ planlandı |
 
