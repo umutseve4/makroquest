@@ -16,11 +16,14 @@ from pathlib import Path
 from fastapi import APIRouter, Query
 from pydantic import BaseModel
 
+from makroquest.paths import data_dir
 from makroquest.rag.chunking import load_corpus
 
 router = APIRouter()
 
-CORPUS_DIR = Path(__file__).resolve().parents[3] / "data" / "corpus"
+
+def _corpus_dir() -> Path:
+    return data_dir() / "corpus"
 
 
 class RetrievedChunk(BaseModel):
@@ -39,7 +42,7 @@ class RetrieveResponse(BaseModel):
 @lru_cache(maxsize=1)
 def get_store():
     """Build (and index) the store once per process."""
-    chunks = load_corpus(CORPUS_DIR)
+    chunks = load_corpus(_corpus_dir())
     dsn = os.environ.get("DATABASE_URL", "")
     if dsn:
         from makroquest.rag.store import PgVectorStore

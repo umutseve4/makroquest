@@ -15,17 +15,20 @@ from pydantic import BaseModel, Field
 from makroquest.agent.graph import run_agent
 from makroquest.cases.engine import CaseEngine, SessionError
 from makroquest.cases.loader import load_cases
+from makroquest.paths import data_dir
 from makroquest.rag.api import get_store
 
 router = APIRouter(prefix="/case")
 
-CASES_DIR = Path(__file__).resolve().parents[3] / "data" / "cases"
+
+def _cases_dir() -> Path:
+    return data_dir() / "cases"
 
 
 @lru_cache(maxsize=1)
 def get_engine() -> CaseEngine:
     """Load case templates once per process."""
-    return CaseEngine(load_cases(CASES_DIR))
+    return CaseEngine(load_cases(_cases_dir()))
 
 
 class CaseSummary(BaseModel):
