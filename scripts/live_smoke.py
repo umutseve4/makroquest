@@ -13,6 +13,9 @@ Kontroller:
   7. POST /ask                       -> 200, >=1 citation
   8. GET  /                          -> 3xx redirect, Location: /docs
 
+Not: FAIL alınırsa https://status.render.com kontrol edilmeli; platform
+incident'ları (ör. 2026-08-20 free-tier spin-up kesintisi) 502/503/429 üretir.
+
 Çıkış kodu: hepsi PASS ise 0, aksi halde 1.
 """
 
