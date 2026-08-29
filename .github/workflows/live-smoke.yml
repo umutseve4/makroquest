@@ -2,46 +2,24 @@ name: live-smoke
 
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - "scripts/live_smoke.py"
-      - ".github/workflows/live-smoke.yml"
   schedule:
     - cron: "17 6 * * 1" # her pazartesi 06:17 UTC — canlı demo hâlâ ayakta mı?
 
 permissions:
   contents: read
-  pull-requests: write
+
+concurrency:
+  group: live-smoke-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   live-smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
       - name: Canlı deploy smoke testi
-        id: smoke
-        continue-on-error: true
-        shell: bash
-        run: |
-          python -u scripts/live_smoke.py https://makroquest.onrender.com 2>&1 | tee smoke.log
-          exit "${PIPESTATUS[0]}"
-      - name: Sonucu PR'a yorumla
-        if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          {
-            echo "### live-smoke sonucu (${{ steps.smoke.outcome }})"
-            echo '```'
-            cat smoke.log
-            echo '```'
-          } > comment.md
-          gh pr comment "${{ github.event.pull_request.number }}" \
-            --repo "${{ github.repository }}" --body-file comment.md
-      - name: Smoke FAIL ise job'ı düşür
-        if: steps.smoke.outcome == 'failure'
-        run: exit 1
+        run: python -u scripts/live_smoke.py https://makroquest.onrender.com

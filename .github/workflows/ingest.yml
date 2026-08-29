@@ -5,12 +5,20 @@ on:
     - cron: "0 6 * * 1"  # her pazartesi 06:00 UTC
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ingest-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   ingest:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
       - name: Install
@@ -18,7 +26,7 @@ jobs:
       - name: Run ingestion (World Bank, keyless)
         run: python -m makroquest.ingest data/makroquest.db
       - name: Upload DB artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           name: makroquest-db
           path: data/makroquest.db

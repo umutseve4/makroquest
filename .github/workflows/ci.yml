@@ -5,9 +5,17 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     services:
       postgres:
         image: pgvector/pgvector:pg16
@@ -25,8 +33,8 @@ jobs:
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
       - name: Install
@@ -40,29 +48,43 @@ jobs:
 
   docker:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Build image
         run: docker build -t makroquest:ci .
       - name: Smoke test (non-editable kurulum + MAKROQUEST_DATA_DIR)
+        shell: bash
         run: |
+          set -euo pipefail
+          cleanup() { docker stop mq >/dev/null 2>&1 || true; }
+          trap cleanup EXIT
+
           docker run -d --rm -p 7860:7860 --name mq makroquest:ci
-          for i in $(seq 1 30); do
-            curl -fs http://localhost:7860/health > /dev/null && break
+          ready=false
+          for _ in $(seq 1 30); do
+            if curl --fail --silent --show-error http://localhost:7860/health > /dev/null; then
+              ready=true
+              break
+            fi
             sleep 1
           done
+          if [[ "$ready" != "true" ]]; then
+            docker logs mq
+            exit 1
+          fi
+
           echo "== /health =="
-          curl -fs http://localhost:7860/health
+          curl --fail --silent --show-error http://localhost:7860/health
           echo
           echo "== /case listesi =="
-          curl -fs http://localhost:7860/case | grep -q kasim-2021
+          curl --fail --silent --show-error http://localhost:7860/case | grep -q kasim-2021
           echo "case listesi OK"
           echo "== vaka akisi =="
-          SID=$(curl -fs -X POST http://localhost:7860/case/kasim-2021/start \
+          SID=$(curl --fail --silent --show-error -X POST http://localhost:7860/case/kasim-2021/start \
             | python3 -c "import sys,json;print(json.load(sys.stdin)['session_id'])")
-          curl -fs "http://localhost:7860/case/session/$SID/score" > /dev/null
+          curl --fail --silent --show-error "http://localhost:7860/case/session/$SID/score" > /dev/null
           echo "vaka akisi OK"
           echo "== /retrieve =="
-          curl -fs "http://localhost:7860/retrieve?q=doviz%20kuru&k=3" \
+          curl --fail --silent --show-error "http://localhost:7860/retrieve?q=doviz%20kuru&k=3" \
             | python3 -c "import sys,json;d=json.load(sys.stdin);assert d['results'],'bos sonuc';print('retrieve OK,',len(d['results']),'sonuc')"
-          docker stop mq
